@@ -6,32 +6,29 @@ namespace Raketa420
 {
     public class Crosshair : MonoBehaviour
     {
-        private RectTransform rectTransform;
+        private Canvas canvas;
         private Image crosshairImage;
         private Vector2 startLocalPosition;
-        private IInputService inputService;
         private float moveSpeed = 750f;
         
         [Inject]
-        public void Construct(IInputService inputService)
+        public void Construct(Canvas canvas)
         {
-            this.inputService = inputService;
+            this.canvas = canvas;
         }
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
+            transform.parent = canvas.transform;
             crosshairImage = GetComponent<Image>();
             startLocalPosition = transform.localPosition;
         }
 
         private void Update()
         {
-            if (!inputService.IsEnabled)
-                return;
 
-            var inputDirection = new Vector2(inputService.Axis.x, inputService.Axis.y);
-            Move(inputDirection, moveSpeed);
+            //var inputDirection = new Vector2(inputService.Axis.x, inputService.Axis.y);
+            //Move(inputDirection, moveSpeed);
         }
 
         public void Enable()

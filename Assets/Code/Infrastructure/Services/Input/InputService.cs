@@ -4,8 +4,8 @@ public abstract class InputService : MonoBehaviour, IInputService
 {
     protected const string Horizontal = "Horizontal";
     protected const string Vertical = "Vertical";
-    protected const string Attack = "Attack";
-    protected const string Aim = "Aim";
+    private const string Attack = "Attack";
+    private const string Aim = "Aim";
 
     public bool IsEnabled { get; private set; }
 
@@ -15,16 +15,16 @@ public abstract class InputService : MonoBehaviour, IInputService
 
     public bool IsShootButtonDown() => SimpleInput.GetButtonDown(Aim);
     
-    public bool Enable()
+    public void Enable()
     {
         gameObject.SetActive(true);
-        return true;
+        IsEnabled = true;
     }
 
-    public bool Disable()
+    public void Disable()
     {
         gameObject.SetActive(false);
-        return false;
+        IsEnabled = false;
     }
 
     protected static Vector2 GetSimpleInputAxis() =>

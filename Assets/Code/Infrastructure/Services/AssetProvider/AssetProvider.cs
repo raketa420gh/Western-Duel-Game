@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AssetProvider : IAssetProvider
+public class AssetProvider : MonoBehaviour, IAssetProvider
 {
     public GameObject Instantiate(string path)
     {
