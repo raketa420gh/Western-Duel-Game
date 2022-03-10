@@ -138,6 +138,6 @@ public class GameLoop : MonoBehaviour
 
     private void OnAllEnemiesDied()
     {
-        Debug.Log($"All Enemies Died");
+        Invoke(nameof(ReloadScene), 1f);
     }
 }

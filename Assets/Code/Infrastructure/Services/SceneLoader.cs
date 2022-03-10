@@ -10,9 +10,9 @@ public class SceneLoader : MonoBehaviour, IService
         StartCoroutine(LoadScene(name, onLoaded));
     }
 
-    public void ReloadScene(Action onLoaded = null)
+    public void ReloadScene()
     {
-        StartCoroutine(LoadScene(SceneManager.GetActiveScene().name, onLoaded));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
     private IEnumerator LoadScene(string nextScene, Action OnLoaded = null)
