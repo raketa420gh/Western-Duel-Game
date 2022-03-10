@@ -1667,6 +1667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1581291339}
   - component: {fileID: 1581291338}
+  - component: {fileID: 1581291344}
   - component: {fileID: 1581291341}
   - component: {fileID: 1581291342}
   - component: {fileID: 1581291340}
@@ -1708,11 +1709,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 1581291344}
   - {fileID: 1581291341}
   - {fileID: 1581291342}
+  - {fileID: 1581291343}
   - {fileID: 1581291340}
   - {fileID: 1581291337}
-  - {fileID: 1581291343}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1798,6 +1800,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PointerPrefab: {fileID: 5051706036758988056, guid: ef84a2aba394639448edd31acde5f7fa, type: 3}
   SpawnPosition: {x: 1.8, y: 1.2, z: 11.3}
+--- !u!114 &1581291344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581291336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b040753db11ab45a105693be7461c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 937963804}
 --- !u!1001 &1629254985
 PrefabInstance:
   m_ObjectHideFlags: 0
