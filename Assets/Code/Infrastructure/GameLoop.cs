@@ -10,12 +10,14 @@ public class GameLoop : MonoBehaviour
     private Canvas canvas;
     private Player player;
     private Crosshair crosshair;
+    private SceneLoader sceneLoader;
+    private EnemyCounter enemyCounter;
     
     private bool IsAllowedToShoot => !countdown.IsActive;
 
     [Inject]
     public void Construct(IInputService inputService, IGameFactory gameFactory, ICountdownService countdown,
-        Canvas canvas, Player player, Crosshair crosshair)
+        Canvas canvas, Player player, Crosshair crosshair, SceneLoader sceneLoader, EnemyCounter enemyCounter)
     {
         this.inputService = inputService;
         this.gameFactory = gameFactory;
@@ -23,18 +25,22 @@ public class GameLoop : MonoBehaviour
         this.canvas = canvas;
         this.player = player;
         this.crosshair = crosshair;
+        this.sceneLoader = sceneLoader;
+        this.enemyCounter = enemyCounter;
     }
 
     private void OnEnable()
     {
         countdown.OnStepCompleted += OnCountdownStepCompleted;
         countdown.OnCountdownFinished += OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
     }
 
     private void OnDisable()
     {
         countdown.OnStepCompleted -= OnCountdownStepCompleted;
         countdown.OnCountdownFinished -= OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied -= OnAllEnemiesDied;
     }
 
     private void Start()
@@ -97,6 +103,12 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("LOSE LEVEL");
         inputService.Disable();
+        ReloadScene();
+    }
+
+    private void ReloadScene()
+    {
+        sceneLoader.ReloadScene();
     }
 
     private void OnCountdownFinished()
@@ -122,5 +134,10 @@ public class GameLoop : MonoBehaviour
         }
 
         Destroy(floatingText.gameObject, 2f);
+    }
+
+    private void OnAllEnemiesDied()
+    {
+        Debug.Log($"All Enemies Died");
     }
 }
