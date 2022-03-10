@@ -1,3 +1,4 @@
+using System.Linq;
 using Raketa420;
 using UnityEngine;
 using Zenject;
@@ -19,21 +20,16 @@ public class GameLoop : MonoBehaviour
     public void Construct(IInputService inputService, IGameFactory gameFactory, ICountdownService countdown,
         Canvas canvas, Player player, Crosshair crosshair, SceneLoader sceneLoader, EnemyCounter enemyCounter)
     {
+        this.sceneLoader = sceneLoader;
+        this.canvas = canvas;
         this.inputService = inputService;
         this.gameFactory = gameFactory;
         this.countdown = countdown;
-        this.canvas = canvas;
         this.player = player;
         this.crosshair = crosshair;
-        this.sceneLoader = sceneLoader;
         this.enemyCounter = enemyCounter;
-    }
-
-    private void OnEnable()
-    {
-        countdown.OnStepCompleted += OnCountdownStepCompleted;
-        countdown.OnCountdownFinished += OnCountdownFinished;
-        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
+        
+        SubscribeEvents();
     }
 
     private void OnDisable()
@@ -44,7 +40,8 @@ public class GameLoop : MonoBehaviour
     }
 
     private void Start()
-    {    
+    {
+        
         inputService.Enable();
         crosshair.Disable();
         countdown.StartCountdown();
@@ -103,7 +100,6 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("LOSE LEVEL");
         inputService.Disable();
-        ReloadScene();
     }
 
     private void ReloadScene()
@@ -114,6 +110,13 @@ public class GameLoop : MonoBehaviour
     private void OnCountdownFinished()
     {
         inputService.Enable();
+    }
+
+    private void SubscribeEvents()
+    {
+        countdown.OnStepCompleted += OnCountdownStepCompleted;
+        countdown.OnCountdownFinished += OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
     }
 
     private void OnCountdownStepCompleted(int step)

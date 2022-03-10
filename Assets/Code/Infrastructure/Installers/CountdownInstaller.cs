@@ -4,14 +4,14 @@ using Zenject;
 public class CountdownInstaller : MonoInstaller
 {
     public Countdown Countdown;
-
+    
     public override void InstallBindings()
     {
-        BindCountdown();
+        BindCountdownService();
     }
     
-    private void BindCountdown()
+    private void BindCountdownService()
     {
-        Container.Bind<ICountdownService>().To<Countdown>().FromComponentInNewPrefab(Countdown).AsSingle().NonLazy();
+        Container.Bind<ICountdownService>().To<Countdown>().FromComponentInNewPrefab(Countdown).AsSingle();
     }
 }
