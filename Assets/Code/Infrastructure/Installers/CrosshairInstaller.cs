@@ -4,7 +4,13 @@ using Zenject;
 
 public class CrosshairInstaller : MonoInstaller
 {
-    public Crosshair CrosshairPrefab;
+    private Canvas canvas;
+
+    [Inject]
+    public void Construct(Canvas canvas)
+    {
+        this.canvas = canvas;
+    }
     
     public override void InstallBindings()
     {
@@ -13,11 +19,9 @@ public class CrosshairInstaller : MonoInstaller
     
     private void BindCrosshair()
     {
-        Crosshair crosshair = Container.InstantiatePrefabForComponent<Crosshair>(CrosshairPrefab,
-            Vector3.zero, Quaternion.identity, null);
-
+        var crosshair = canvas.GetComponentInChildren<Crosshair>();
         crosshair.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        
+
         Container.Bind<Crosshair>().FromInstance(crosshair).AsSingle();
     }
 }

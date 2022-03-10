@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1272212375598728586}
   - component: {fileID: 1272212375598728587}
   - component: {fileID: 1272212375598728584}
-  - component: {fileID: -5757055076408541272}
+  - component: {fileID: 5051706036758988056}
   m_Layer: 2
   m_Name: DebugSphere
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1272212375598728590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-5757055076408541272
+--- !u!114 &5051706036758988056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,6 +91,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1272212375598728590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2546265e05b36246a4567bc4bf64d02, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fa3ba552a474e8fb10117cbb4856bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

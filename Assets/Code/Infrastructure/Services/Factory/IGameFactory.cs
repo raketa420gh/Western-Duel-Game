@@ -6,4 +6,5 @@ public interface IGameFactory : IService
     GameObject PlayerCharacterGameObject { get; }
     event Action OnPlayerCharacterCreated;
     GameObject CreatePlayerCharacter(Vector3 initialPointPosition);
+    GameObject CreateFloatingText(Canvas canvas);
 }

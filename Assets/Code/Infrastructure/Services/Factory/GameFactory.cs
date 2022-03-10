@@ -7,10 +7,10 @@ public class GameFactory : MonoBehaviour, IGameFactory
     public GameObject PlayerCharacterGameObject { get; private set; }
     public event Action OnPlayerCharacterCreated;
     
-    private AssetProvider assetProvider;
+    private IAssetProvider assetProvider;
 
     [Inject]
-    public void Construct(AssetProvider assetProvider)
+    public void Construct(IAssetProvider assetProvider)
     {
         this.assetProvider = assetProvider;
     }
@@ -21,5 +21,14 @@ public class GameFactory : MonoBehaviour, IGameFactory
         OnPlayerCharacterCreated?.Invoke();
         
         return PlayerCharacterGameObject;
+    }
+
+    public GameObject CreateFloatingText(Canvas canvas)
+    {
+        GameObject floatingTextPrefab = assetProvider.Instantiate(AssetPath.FloatingTextPath, canvas.transform.position);
+        floatingTextPrefab.transform.SetParent(canvas.transform);
+        floatingTextPrefab.transform.SetSiblingIndex(0);
+
+        return floatingTextPrefab;
     }
 }

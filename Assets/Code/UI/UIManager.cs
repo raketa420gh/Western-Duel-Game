@@ -8,12 +8,6 @@ namespace Raketa420
         [SerializeField] private UIPanel winPanel;
         [SerializeField] private UIPanel losePanel;
 
-        public void Initialize()
-        {
-            winPanel.Hide();
-            losePanel.Hide();
-        }
-
         public void ShowWinPanel()
         {
             winPanel.Show();

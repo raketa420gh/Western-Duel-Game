@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace Raketa420
 {
@@ -10,25 +9,13 @@ namespace Raketa420
         private Image crosshairImage;
         private Vector2 startLocalPosition;
         private float moveSpeed = 750f;
-        
-        [Inject]
-        public void Construct(Canvas canvas)
-        {
-            this.canvas = canvas;
-        }
 
         private void Awake()
         {
+            canvas = GetComponentInParent<Canvas>();
             transform.parent = canvas.transform;
             crosshairImage = GetComponent<Image>();
             startLocalPosition = transform.localPosition;
-        }
-
-        private void Update()
-        {
-
-            //var inputDirection = new Vector2(inputService.Axis.x, inputService.Axis.y);
-            //Move(inputDirection, moveSpeed);
         }
 
         public void Enable()
@@ -46,10 +33,13 @@ namespace Raketa420
             transform.localPosition = startLocalPosition;
         }
 
-        private void Move(Vector2 direction, float speed)
+        public void Move(Vector2 direction)
         {
-            direction *= speed * Time.deltaTime;
-            transform.localPosition = new Vector2(transform.localPosition.x + direction.x, transform.localPosition.y + direction.y);
+            direction *= moveSpeed * Time.deltaTime;
+            Vector3 localPosition = transform.localPosition;
+            
+            localPosition = new Vector2(localPosition.x + direction.x, localPosition.y + direction.y);
+            transform.localPosition = localPosition;
         }
     }
 }

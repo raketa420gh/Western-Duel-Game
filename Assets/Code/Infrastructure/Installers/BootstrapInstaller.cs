@@ -1,3 +1,4 @@
+using Raketa420;
 using Zenject;
 
 public class BootstrapInstaller : MonoInstaller
@@ -6,13 +7,15 @@ public class BootstrapInstaller : MonoInstaller
     public GameFactory GameFactory;
     public SceneLoader SceneLoader;
     public MobileInputService InputService;
+    public Countdown Countdown;
     
     public override void InstallBindings()
     {
         BindAssetProvider();
+        BindInputService();
         BindFactory();
         BindSceneLoader();
-        BindInputService();
+        BindCountdownService();
     }
 
     private void BindAssetProvider()
@@ -33,5 +36,10 @@ public class BootstrapInstaller : MonoInstaller
     private void BindInputService()
     {
         Container.Bind<IInputService>().To<MobileInputService>().FromComponentInNewPrefab(InputService).AsSingle();
+    }
+    
+    private void BindCountdownService()
+    {
+        Container.Bind<ICountdownService>().To<Countdown>().FromComponentInNewPrefab(Countdown).AsSingle();
     }
 }

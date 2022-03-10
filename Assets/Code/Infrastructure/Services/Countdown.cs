@@ -4,7 +4,7 @@ using System;
 
 namespace Raketa420
 {
-    public class Countdown : MonoBehaviour
+    public class Countdown : MonoBehaviour, ICountdownService
     {
         private int currentStage = 0;
         private float stepTime = 1f;
@@ -24,7 +24,7 @@ namespace Raketa420
         {
             isActive = true;
             yield return new WaitForSeconds(stepTime);
-            currentStage ++;
+            currentStage++;
 
             OnStepCompleted?.Invoke(currentStage);
 

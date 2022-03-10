@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace Raketa420
 {
@@ -8,16 +9,11 @@ namespace Raketa420
         [SerializeField] private Transform barrel;
         [SerializeField] private Transform muzzle;
         [SerializeField] private BulletPlayer bullet;
-        
-        private Crosshair crosshair;
-        private Transform pointer;
-        private bool isBarrelNeedToBeDirected;
 
-        public void Initialize()
-        {
-            crosshair = FindObjectOfType<Crosshair>();
-            pointer = FindObjectOfType<DebugSphere>().transform;
-        }
+        [Inject] private Crosshair crosshair;
+        private Pointer pointer;
+        
+        private bool isBarrelNeedToBeDirected;
 
         private void FixedUpdate()
         {
@@ -30,7 +26,7 @@ namespace Raketa420
             if (!Physics.Raycast(ray, out RaycastHit hitInfo)) 
                 return;
             
-            pointer.position = hitInfo.point;
+            pointer.transform.position = hitInfo.point;
             
             if (isBarrelNeedToBeDirected)
             {
@@ -41,7 +37,7 @@ namespace Raketa420
         public void Shoot()
         {
             ProjectileBase projectile = Instantiate(bullet, muzzle.transform.position, Quaternion.identity, bulletsParent);
-            projectile.SetTarget(pointer.position);
+            projectile.SetTarget(pointer.transform.position);
         }
 
         public void DirectBarrel()

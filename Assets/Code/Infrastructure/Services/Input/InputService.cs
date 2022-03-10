@@ -5,7 +5,6 @@ public abstract class InputService : MonoBehaviour, IInputService
     protected const string Horizontal = "Horizontal";
     protected const string Vertical = "Vertical";
     private const string Attack = "Attack";
-    private const string Aim = "Aim";
 
     public bool IsEnabled { get; private set; }
 
@@ -13,20 +12,24 @@ public abstract class InputService : MonoBehaviour, IInputService
 
     public bool IsShootButtonUp() => SimpleInput.GetButtonUp(Attack);
 
-    public bool IsShootButtonDown() => SimpleInput.GetButtonDown(Aim);
+    public bool IsShootButtonDown() => SimpleInput.GetButtonDown(Attack);
     
     public void Enable()
     {
-        gameObject.SetActive(true);
         IsEnabled = true;
     }
 
     public void Disable()
     {
-        gameObject.SetActive(false);
         IsEnabled = false;
+    }
+
+    public bool IsAxisDragged()
+    {
+        return Axis.y != 0 || Axis.x != 0;
     }
 
     protected static Vector2 GetSimpleInputAxis() =>
         new Vector2(SimpleInput.GetAxis(Horizontal), SimpleInput.GetAxis(Vertical));
+    
 }

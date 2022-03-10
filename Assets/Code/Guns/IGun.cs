@@ -1,9 +1,4 @@
-using UnityEngine;
-
-namespace Raketa420
+public interface IGun
 {
-    public interface IGun
-    {
-        void Shoot();
-    }
+    void Shoot();
 }
