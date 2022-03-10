@@ -1,4 +1,3 @@
-using System.Linq;
 using Raketa420;
 using UnityEngine;
 using Zenject;
@@ -41,7 +40,6 @@ public class GameLoop : MonoBehaviour
 
     private void Start()
     {
-        
         inputService.Enable();
         crosshair.Disable();
         countdown.StartCountdown();
@@ -100,6 +98,7 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("LOSE LEVEL");
         inputService.Disable();
+        ReloadScene();
     }
 
     private void ReloadScene()
@@ -141,6 +140,6 @@ public class GameLoop : MonoBehaviour
 
     private void OnAllEnemiesDied()
     {
-        Invoke(nameof(ReloadScene), 1f);
+        Invoke(nameof(ReloadScene), 2f);
     }
 }
