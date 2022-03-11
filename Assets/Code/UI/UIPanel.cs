@@ -1,17 +1,14 @@
 using UnityEngine;
 
-namespace Raketa420
+public class UIPanel : MonoBehaviour, IUIPanel
 {
-    public class UIPanel : MonoBehaviour
+    public void Show()
     {
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
+        gameObject.SetActive(true);
+    }
 
-        public void Hide()
-        {
-            gameObject.SetActive(false);
-        }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

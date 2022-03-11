@@ -6,7 +6,7 @@ public class BootstrapInstaller : MonoInstaller
     public GameFactory GameFactory;
     public SceneLoader SceneLoader;
     public MobileInputService InputService;
-    
+
     public override void InstallBindings()
     {
         BindAssetProvider();

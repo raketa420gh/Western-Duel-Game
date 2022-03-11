@@ -12,6 +12,7 @@ public class GameLoop : MonoBehaviour
     private Crosshair crosshair;
     private SceneLoader sceneLoader;
     private EnemyCounter enemyCounter;
+    private UIPanelsView uiPanelsView;
     
     private bool IsAllowedToShoot => !countdown.IsActive;
 
@@ -27,6 +28,8 @@ public class GameLoop : MonoBehaviour
         this.player = player;
         this.crosshair = crosshair;
         this.enemyCounter = enemyCounter;
+
+        uiPanelsView = canvas.GetComponentInChildren<UIPanelsView>();
         
         SubscribeEvents();
     }
@@ -98,7 +101,7 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("LOSE LEVEL");
         inputService.Disable();
-        ReloadScene();
+        uiPanelsView.ShowLosePanel();
     }
 
     private void ReloadScene()
@@ -106,16 +109,14 @@ public class GameLoop : MonoBehaviour
         sceneLoader.ReloadScene();
     }
 
+    private void ShowWinPanel()
+    {
+        uiPanelsView.ShowWinPanel();
+    }
+
     private void OnCountdownFinished()
     {
         inputService.Enable();
-    }
-
-    private void SubscribeEvents()
-    {
-        countdown.OnStepCompleted += OnCountdownStepCompleted;
-        countdown.OnCountdownFinished += OnCountdownFinished;
-        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
     }
 
     private void OnCountdownStepCompleted(int step)
@@ -140,6 +141,13 @@ public class GameLoop : MonoBehaviour
 
     private void OnAllEnemiesDied()
     {
-        Invoke(nameof(ReloadScene), 2f);
+        Invoke(nameof(ShowWinPanel), 2f);
+    }
+
+    private void SubscribeEvents()
+    {
+        countdown.OnStepCompleted += OnCountdownStepCompleted;
+        countdown.OnCountdownFinished += OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
     }
 }
