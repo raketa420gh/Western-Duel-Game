@@ -9,7 +9,10 @@ namespace Raketa420
         public event Action OnAllEnemiesDied;
 
         private Enemy[] enemies;
-        private List<Enemy> enemiesList = new List<Enemy>();
+        
+        private readonly List<Enemy> enemiesList = new List<Enemy>();
+
+        public Enemy[] Enemies => enemies;
 
         private void OnEnable()
         {

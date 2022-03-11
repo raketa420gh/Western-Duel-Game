@@ -10,7 +10,6 @@ public class GameLoop : MonoBehaviour
     private Canvas canvas;
     private Player player;
     private Crosshair crosshair;
-    private SceneLoader sceneLoader;
     private EnemyCounter enemyCounter;
     private UIPanelsView uiPanelsView;
     
@@ -18,9 +17,8 @@ public class GameLoop : MonoBehaviour
 
     [Inject]
     public void Construct(IInputService inputService, IGameFactory gameFactory, ICountdownService countdown,
-        Canvas canvas, Player player, Crosshair crosshair, SceneLoader sceneLoader, EnemyCounter enemyCounter)
+        Canvas canvas, Player player, Crosshair crosshair, EnemyCounter enemyCounter)
     {
-        this.sceneLoader = sceneLoader;
         this.canvas = canvas;
         this.inputService = inputService;
         this.gameFactory = gameFactory;
@@ -32,13 +30,6 @@ public class GameLoop : MonoBehaviour
         uiPanelsView = canvas.GetComponentInChildren<UIPanelsView>();
         
         SubscribeEvents();
-    }
-
-    private void OnDisable()
-    {
-        countdown.OnStepCompleted -= OnCountdownStepCompleted;
-        countdown.OnCountdownFinished -= OnCountdownFinished;
-        enemyCounter.OnAllEnemiesDied -= OnAllEnemiesDied;
     }
 
     private void Start()
@@ -81,6 +72,27 @@ public class GameLoop : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        countdown.OnStepCompleted += OnCountdownStepCompleted;
+        countdown.OnCountdownFinished += OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
+        player.OnKilled += OnPlayerKilled;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        countdown.OnStepCompleted -= OnCountdownStepCompleted;
+        countdown.OnCountdownFinished -= OnCountdownFinished;
+        enemyCounter.OnAllEnemiesDied -= OnAllEnemiesDied;
+        player.OnKilled -= OnPlayerKilled;
+    }
+
     private void StartPlayerAiming()
     {
         crosshair.Enable();
@@ -101,12 +113,8 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("LOSE LEVEL");
         inputService.Disable();
+        countdown.StopCountdown();
         uiPanelsView.ShowLosePanel();
-    }
-
-    private void ReloadScene()
-    {
-        sceneLoader.ReloadScene();
     }
 
     private void ShowWinPanel()
@@ -117,6 +125,11 @@ public class GameLoop : MonoBehaviour
     private void OnCountdownFinished()
     {
         inputService.Enable();
+
+        foreach (Enemy enemy in enemyCounter.Enemies)
+        {
+            enemy.AI.StartShootingRoutine();
+        }
     }
 
     private void OnCountdownStepCompleted(int step)
@@ -127,12 +140,15 @@ public class GameLoop : MonoBehaviour
         {
             case 1:
                 floatingText.SetText($"Ready");
+                floatingText.SetBackgroundImageColor(Color.black);
                 break;
             case 2:
                 floatingText.SetText($"Steady");
+                floatingText.SetBackgroundImageColor(Color.black);
                 break;
             case 3:
                 floatingText.SetText($"GO!");
+                floatingText.SetBackgroundImageColor(Color.green);
                 break;
         }
 
@@ -141,13 +157,12 @@ public class GameLoop : MonoBehaviour
 
     private void OnAllEnemiesDied()
     {
+        inputService.Disable();
         Invoke(nameof(ShowWinPanel), 2f);
     }
 
-    private void SubscribeEvents()
+    private void OnPlayerKilled(Player player)
     {
-        countdown.OnStepCompleted += OnCountdownStepCompleted;
-        countdown.OnCountdownFinished += OnCountdownFinished;
-        enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
+        LoseLevel();
     }
 }

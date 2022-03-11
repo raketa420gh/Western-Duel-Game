@@ -20,6 +20,11 @@ namespace Raketa420
             StartCoroutine(nameof(CountdownRoutine));
         }
 
+        public void StopCountdown()
+        {
+            StopCoroutine(nameof(CountdownRoutine));
+        }
+
         private IEnumerator CountdownRoutine()
         {
             isActive = true;

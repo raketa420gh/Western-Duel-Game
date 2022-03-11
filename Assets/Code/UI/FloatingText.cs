@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Raketa420
+public class FloatingText : MonoBehaviour
 {
-    public class FloatingText : MonoBehaviour
-    {
-        [SerializeField] private Text text;
+    [SerializeField] private Text text;
+    [SerializeField] private Image backgroundImage;
 
-        public void SetText(string text)
-        {
-            this.text.text = text;
-        }
+    public void SetText(string text)
+    {
+        this.text.text = text;
+    }
+
+    public void SetBackgroundImageColor(Color color)
+    {
+        backgroundImage.color = color;
     }
 }

@@ -6,4 +6,5 @@ public interface ICountdownService : IService
     event Action OnCountdownFinished;
     event Action<int> OnStepCompleted;
     void StartCountdown();
+    void StopCountdown();
 }
