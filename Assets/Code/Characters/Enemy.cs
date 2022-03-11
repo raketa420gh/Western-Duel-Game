@@ -7,7 +7,7 @@ namespace Raketa420
 
     public class Enemy : Character
     {
-        [SerializeField] [Range(0.05f, 3f)] private float reactionFactor = 1f;
+        [SerializeField] [Range(0.5f, 3f)] private float reactionFactor = 1.25f;
         private EnemyAI ai;
         private EnemyGun gun;
         private bool isAlive;
@@ -38,11 +38,6 @@ namespace Raketa420
         {
             isAlive = false;
             OnKilled?.Invoke(this);
-        }
-
-        public void LookAtPlayer(Player player)
-        {
-            transform.LookAt(player.transform);
         }
     }
 }

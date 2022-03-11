@@ -22,8 +22,6 @@ namespace Raketa420
             {
                 enemy.Gun.Shoot();
             }
-
-            yield break;
         }
 
         public void StartShootingRoutine()
