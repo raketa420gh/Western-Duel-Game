@@ -12,12 +12,13 @@ public class GameLoop : MonoBehaviour
     private Crosshair crosshair;
     private EnemyCounter enemyCounter;
     private UIPanelsView uiPanelsView;
+    private CameraMotion cameraMotion;
     
     private bool IsAllowedToShoot => !countdown.IsActive;
 
     [Inject]
     public void Construct(IInputService inputService, IGameFactory gameFactory, ICountdownService countdown,
-        Canvas canvas, Player player, Crosshair crosshair, EnemyCounter enemyCounter)
+        Canvas canvas, Player player, Crosshair crosshair, EnemyCounter enemyCounter, CameraMotion cameraMotion)
     {
         this.canvas = canvas;
         this.inputService = inputService;
@@ -26,6 +27,7 @@ public class GameLoop : MonoBehaviour
         this.player = player;
         this.crosshair = crosshair;
         this.enemyCounter = enemyCounter;
+        this.cameraMotion = cameraMotion;
 
         uiPanelsView = canvas.GetComponentInChildren<UIPanelsView>();
         
@@ -34,9 +36,10 @@ public class GameLoop : MonoBehaviour
 
     private void Start()
     {
+        cameraMotion.StartMotion();
         inputService.Enable();
         crosshair.Disable();
-        countdown.StartCountdown();
+        Invoke(nameof(StartCountdown), 1f);
     }
 
     private void Update()
@@ -91,6 +94,11 @@ public class GameLoop : MonoBehaviour
         countdown.OnCountdownFinished -= OnCountdownFinished;
         enemyCounter.OnAllEnemiesDied -= OnAllEnemiesDied;
         player.OnKilled -= OnPlayerKilled;
+    }
+
+    private void StartCountdown()
+    {
+        countdown.StartCountdown();
     }
 
     private void StartPlayerAiming()

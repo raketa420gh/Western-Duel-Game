@@ -15,7 +15,7 @@ namespace Raketa420
 
                 ragdoll.Activate();
                 player.Die();
-                rigidBody.AddForce(forceVector * base.ImpulseForce, ForceMode.Impulse);
+                rigidBody.AddForce(forceVector * ImpulseForce, ForceMode.Impulse);
             }
 
             base.OnTriggerEnter(other);
