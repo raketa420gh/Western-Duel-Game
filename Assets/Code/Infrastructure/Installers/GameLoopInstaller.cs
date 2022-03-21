@@ -3,7 +3,7 @@ using Zenject;
 
 public class GameLoopInstaller : MonoInstaller
 {
-    public GameLoop GameLoopPrefab;
+    public DuelModeGameLoop duelModeGameLoopPrefab;
     
     public override void InstallBindings()
     {
@@ -12,9 +12,9 @@ public class GameLoopInstaller : MonoInstaller
 
     private void BindGameLoop()
     {
-        GameLoop gameLoop = Container.InstantiatePrefabForComponent<GameLoop>(GameLoopPrefab, 
+        DuelModeGameLoop duelModeGameLoop = Container.InstantiatePrefabForComponent<DuelModeGameLoop>(duelModeGameLoopPrefab, 
             Vector3.zero, Quaternion.identity, null);
 
-        Container.Bind<GameLoop>().FromInstance(gameLoop).AsSingle();
+        Container.Bind<DuelModeGameLoop>().FromInstance(duelModeGameLoop).AsSingle();
     }
 }

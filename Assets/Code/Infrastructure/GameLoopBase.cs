@@ -1,20 +1,20 @@
-using Raketa420;
+﻿using Raketa420;
 using UnityEngine;
 using Zenject;
 
-public class GameLoop : MonoBehaviour
+public abstract class GameLoopBase : MonoBehaviour
 {
     private IInputService inputService;
-    private IGameFactory gameFactory;
     private ICountdownService countdown;
+    private IGameFactory gameFactory;
     private Canvas canvas;
     private Player player;
-    private Crosshair crosshair;
     private EnemyCounter enemyCounter;
+    private Crosshair crosshair;
     private UIPanelsView uiPanelsView;
     private CameraMotion cameraMotion;
-    
-    private bool IsAllowedToShoot => !countdown.IsActive;
+
+    protected bool IsAllowedToShoot; //=> !countdown.IsActive;
 
     [Inject]
     public void Construct(IInputService inputService, IGameFactory gameFactory, ICountdownService countdown,
@@ -30,28 +30,25 @@ public class GameLoop : MonoBehaviour
         this.cameraMotion = cameraMotion;
 
         uiPanelsView = canvas.GetComponentInChildren<UIPanelsView>();
-        
+
         SubscribeEvents();
     }
 
     private void Start()
     {
-        cameraMotion.StartMotion();
-        inputService.Enable();
-        crosshair.Disable();
-        Invoke(nameof(StartCountdown), 1f);
+        StartGameLoop();
     }
 
-    private void Update()
+    protected void Update()
     {
-        if (!inputService.IsEnabled) 
+        if (!inputService.IsEnabled)
             return;
-        
+
         if (inputService.IsAxisDragged())
         {
             crosshair.Move(inputService.Axis);
         }
-        
+
         if (inputService.IsShootButtonUp())
         {
             if (!player.IsAlive)
@@ -80,25 +77,35 @@ public class GameLoop : MonoBehaviour
         UnsubscribeEvents();
     }
 
-    private void SubscribeEvents()
+    protected virtual void StartGameLoop()
     {
-        countdown.OnStepCompleted += OnCountdownStepCompleted;
-        countdown.OnCountdownFinished += OnCountdownFinished;
+        cameraMotion.StartMotion();
+        inputService.Enable();
+        crosshair.Disable();
+        //Invoke(nameof(StartCountdown), 1f);
+    }
+
+    protected virtual void SubscribeEvents()
+    {
         enemyCounter.OnAllEnemiesDied += OnAllEnemiesDied;
-        player.OnKilled += OnPlayerKilled;
+        //countdown.OnStepCompleted += OnCountdownStepCompleted;
+        //countdown.OnCountdownFinished += OnCountdownFinished;
+        //player.OnKilled += OnPlayerKilled;
     }
 
-    private void UnsubscribeEvents()
+    protected virtual void UnsubscribeEvents()
     {
-        countdown.OnStepCompleted -= OnCountdownStepCompleted;
-        countdown.OnCountdownFinished -= OnCountdownFinished;
         enemyCounter.OnAllEnemiesDied -= OnAllEnemiesDied;
-        player.OnKilled -= OnPlayerKilled;
+        //countdown.OnStepCompleted -= OnCountdownStepCompleted;
+        //countdown.OnCountdownFinished -= OnCountdownFinished;
+        //player.OnKilled -= OnPlayerKilled;
     }
 
-    private void StartCountdown()
+    protected  virtual void LoseLevel()
     {
-        countdown.StartCountdown();
+        inputService.Disable();
+        uiPanelsView.ShowLosePanel();
+        //countdown.StopCountdown();
     }
 
     private void StartPlayerAiming()
@@ -117,60 +124,14 @@ public class GameLoop : MonoBehaviour
         player.Animation.PlayIdle();
     }
 
-    private void LoseLevel()
-    {
-        Debug.Log("LOSE LEVEL");
-        inputService.Disable();
-        countdown.StopCountdown();
-        uiPanelsView.ShowLosePanel();
-    }
-
     private void ShowWinPanel()
     {
         uiPanelsView.ShowWinPanel();
-    }
-
-    private void OnCountdownFinished()
-    {
-        inputService.Enable();
-
-        foreach (Enemy enemy in enemyCounter.Enemies)
-        {
-            enemy.AI.StartShootingRoutine();
-        }
-    }
-
-    private void OnCountdownStepCompleted(int step)
-    {
-        FloatingText floatingText = gameFactory.CreateFloatingText(canvas).GetComponent<FloatingText>();
-
-        switch (step)
-        {
-            case 1:
-                floatingText.SetText($"Ready");
-                floatingText.SetBackgroundImageColor(Color.black);
-                break;
-            case 2:
-                floatingText.SetText($"Steady");
-                floatingText.SetBackgroundImageColor(Color.black);
-                break;
-            case 3:
-                floatingText.SetText($"GO!");
-                floatingText.SetBackgroundImageColor(Color.green);
-                break;
-        }
-
-        Destroy(floatingText.gameObject, 2f);
     }
 
     private void OnAllEnemiesDied()
     {
         inputService.Disable();
         Invoke(nameof(ShowWinPanel), 2f);
-    }
-
-    private void OnPlayerKilled(Player player)
-    {
-        LoseLevel();
     }
 }

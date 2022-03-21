@@ -1821,7 +1821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7e53098f4de834abde5718e73a0960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameLoopPrefab: {fileID: 3658867564393134280, guid: d47701c6ad36a654aae129d4cafc05e9, type: 3}
+  duelModeGameLoopPrefab: {fileID: 3658867564393134280, guid: d47701c6ad36a654aae129d4cafc05e9, type: 3}
 --- !u!114 &1581291347
 MonoBehaviour:
   m_ObjectHideFlags: 0

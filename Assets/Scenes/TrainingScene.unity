@@ -1763,8 +1763,6 @@ GameObject:
   - component: {fileID: 1581291343}
   - component: {fileID: 1581291340}
   - component: {fileID: 1581291345}
-  - component: {fileID: 1581291347}
-  - component: {fileID: 1581291346}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1791,10 +1789,7 @@ MonoBehaviour:
   - {fileID: 1581291342}
   - {fileID: 1581291343}
   - {fileID: 1581291340}
-  - {fileID: 0}
   - {fileID: 1581291345}
-  - {fileID: 1581291347}
-  - {fileID: 1581291346}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1906,32 +1901,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterPrefab: {fileID: 587181326133589063, guid: a4b715c012cffc6499a523632952473e, type: 3}
---- !u!114 &1581291346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581291336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d7e53098f4de834abde5718e73a0960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameLoopPrefab: {fileID: 3658867564393134280, guid: d47701c6ad36a654aae129d4cafc05e9, type: 3}
---- !u!114 &1581291347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581291336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 662a524d71384650bfcdce2475760b3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Countdown: {fileID: 873631570982245157, guid: 68fb84d33de75fa4f85ed7059c89f80e, type: 3}
 --- !u!1001 &1629254985
 PrefabInstance:
   m_ObjectHideFlags: 0
